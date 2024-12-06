@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use miette::IntoDiagnostic;
 use nom::{
     bytes::complete::tag,
@@ -18,11 +20,6 @@ struct PagePair {
     pub y: u32,
 }
 
-#[derive(Debug)]
-struct ManualUpdate {
-    pub pages: Vec<i32>,
-}
-
 fn parse(input: &str) -> IResult<&str, Vec<PagePair>> {
     let (rest, pairs) =
         many1(many_till(anychar, parse_page_pair).map(|(_discard, pair)| pair))(input)?;
@@ -38,6 +35,10 @@ fn parse_page_pair(input: &str) -> IResult<&str, PagePair> {
             y: pair.1,
         },
     ))
+}
+
+fn parse_updates(input: &str) -> IResult<&str, Vec<u32>> {
+    let (input, updates) = 
 }
 
 #[cfg(test)]
